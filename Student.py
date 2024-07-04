@@ -1,3 +1,7 @@
+from Human import Human
+from Class import Class
+
+
 class Student(Human):
     _class: Class = None
     name: str = ''
@@ -15,7 +19,7 @@ class Student(Human):
         return self._class
 
     def __lt__(self, other):
-        return super().__lt__
+        return super().__lt__(other)
 
     def __repr__(self):
         return f'class<Student>object representation: name = {self.name}, last_name = {self.last_name}, _class = {self._class}, _id = {self._id}'

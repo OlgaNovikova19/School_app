@@ -1,7 +1,5 @@
 from enum import Enum
-
 from typing import List
-
 import csv
 import os
 
@@ -74,10 +72,10 @@ class Class(list):
         raise Exception("Наименование класса должно состоять из 1 заглавной буквы!")"""
 
     def __iter__(self):
-        return iter([i for i in sorted(self._students)])
+        return iter(sorted(self._students))
 
     def __getitem__(self, name):
-        return [i for i in self._students if name == i.name or name == i.last_name]
+        return [i for i in sorted(self._students) if name == i.name or name == i.last_name]
 
     @staticmethod
     def read_csv(filename):
@@ -88,11 +86,14 @@ class Class(list):
             for i, line in enumerate(file):
                 if i == 0:
                     recover_header = line
-                else:
-                    recover_body.append(line)
 
-        for class_inf in recover_body:
-            print(dict(zip(recover_header, class_inf)))
+                elif len(line) == 0:
+                    continue
+
+                else:
+                    recover_body = line
+
+            print(dict(zip(recover_header, recover_body)))
 
     '''def write_csv_user(self, filename):
       field_names = ['_grade', '_letter', '_students', '_homeroom_teacher']
@@ -109,15 +110,13 @@ class Class(list):
 
     def write_csv(self, filename):
         field_names = ['_grade', '_letter', '_students', '_homeroom_teacher']
-        students_inf = []
-        for student in self._students:
-            students_inf.append(student)
         with open(filename, "w") as f:
+            row_to_save = [f"{self._grade}", f"{self._letter}", f"{self._students}", f"{self._homeroom_teacher}"]
             csv.writer(f).writerow(field_names)
-            csv.writer(f).writerow(
-                [f"{self._grade}", f"{self._letter}", f"{students_inf}", f"{self._homeroom_teacher}"])
+
+            csv.writer(f).writerow(row_to_save)
             # print(field_names)
-            # print(f"{self._grade}", f"{self._letter}", f"{students_inf}", f"{self._homeroom_teacher}")
+            # print(f"{self._grade}", f"{self._letter}", f"{self._students}", f"{self._homeroom_teacher}")
 
     def __repr__(self):
         return f'class<Class>object representation: _grade = {self._grade}, _letter = {self._letter}, _students = {self._students}, _homeroom_teacher = {self._homeroom_teacher}'

@@ -20,30 +20,33 @@ class Human:
         self.last_name = last_name
 
     @staticmethod
-    def id_check_generation(id = None):
-      if id in Human.ids:
-          raise Exception("Переданный id уже существует!")
-      elif id is None:
-        if len(Human.ids) >= 1:
-          id = max(Human.ids)+1
-        else:
-          id = 1
-      return id
+    def id_check_generation(id=None):
+        if id in Human.ids:
+            raise Exception("Переданный id уже существует!")
+        elif id is None:
+            if len(Human.ids) >= 1:
+                id = max(Human.ids) + 1
+            else:
+                id = 1
+        return id
 
     def get_id(self):
-      return self._id
+        return self._id
 
     def __lt__(self, other):
-      if ''.join([self.last_name, self.name]) < ''.join([other.last_name, other.name]):
-        return self < other
-      return other < self
+        if self.last_name < other.last_name:
+            return True
+        elif self.last_name == other.last_name:
+            return self.name < other.name
+        else:
+            return False
+
 
     def __hash__(self):
-      return hash(self._id)
+        return hash(self._id)
 
     def __repr__(self):
-      return f'class<Human>object representation: name = {self.name}, last_name = {self.last_name}, _id = {self._id}'
+        return f'class<Human>object representation: name = {self.name}, last_name = {self.last_name}, _id = {self._id}'
 
     def __str__(self):
-      return f'Human with name {self.name}, lastname {self.last_name} and id number {self._id}'
-
+        return f'Human with name {self.name}, lastname {self.last_name} and id number {self._id}'
