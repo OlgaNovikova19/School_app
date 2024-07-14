@@ -21,23 +21,28 @@ class Human:
 
     @staticmethod
     def id_check_generation(id=None):
-        if id in Human.ids:
-            raise Exception("Переданный id уже существует!")
-        elif id is None:
+        if id is None:
             if len(Human.ids) >= 1:
                 id = max(Human.ids) + 1
             else:
                 id = 1
+        elif type(id) is not int or id < 0:
+            raise AttributeError("Переданный id должен быть целым положительным числом!")
+        elif id in Human.ids:
+            raise AttributeError("Переданный id уже существует!")
+
         return id
+
+
 
     def get_id(self):
         return self._id
 
     def __lt__(self, other):
-        if self.last_name < other.last_name:
+        if self.last_name.lower() < other.last_name.lower():
             return True
-        elif self.last_name == other.last_name:
-            return self.name < other.name
+        elif self.last_name.lower() == other.last_name.lower() and self.name.lower() < other.name.lower():
+            return True
         else:
             return False
 

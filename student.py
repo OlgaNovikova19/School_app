@@ -1,5 +1,5 @@
-from Human import Human
-from Class import Class
+from School_app.human import Human
+from School_app.class_ import Class
 
 
 class Student(Human):
