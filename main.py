@@ -1,8 +1,8 @@
-from Subject import Subject
-from Human import Human
-from Class import Class
-from Student import Student
-from Teacher import Teacher
+from subject import Subject
+from human import Human
+from class_ import Class
+from student import Student
+from teacher import Teacher
 
 
 """
@@ -39,6 +39,8 @@ print(sorted([teacher_algebra_geometry, teacher_no_subjects]))
 """
 4. Checking basic functionality of class Class
 """
+
+"""
 class_2A = Class(teacher_algebra_geometry, [])
 print(class_2A)
 class_2A.letter = 'B'
@@ -54,12 +56,13 @@ class_2A.grade = 5
 #class_2A.grade = 1
 print(class_2A.grade)
 
+"""
 
 t = Teacher('Maria', 'Vasilieva', [Subject.HISTORY, Subject.MATH])
-cl = Class(t, [student_Masha, stud, student_Anya], 2, 'A')
+cl = Class(t, [student_Masha, stud, student_Anya], 2, 'А')
 print(cl._homeroom_teacher.name)
 #print(cl._students)
-print(class_2A)
+#print(class_2A)
 cl.write_csv("Class_inform.csv")
 print("======================")
 cl.read_csv("Class_inform.csv")
@@ -69,6 +72,7 @@ print("======================")
 print(student_Anya)
 print(student_Masha)
 print(stud)
+
 """ Checking search for student if lastname or name is provided """
 print(cl["Petrova"])
 print(cl["Anna"])
@@ -76,7 +80,9 @@ print(cl["Mikhail"])
 """ Checking that if 2 equal lastnames or names the output is sorted """
 print(cl["Petrova"])
 
-""" Checking sorted output while running iteration. Object being less defined by the lastname as main condition and by the name if lastnames are equal """
-print(cl)
-for i in cl:
-  print(i)
+#Checking sorted output while running iteration. Object being less defined by the lastname as main condition and by the name if lastnames are equal """
+#for i in cl:
+ # print(i)
+
+s
+
