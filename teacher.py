@@ -1,7 +1,7 @@
 from typing import List
-from Human import Human
-from Subject import Subject
-from Class import Class
+from School_app.human import Human
+from School_app.subject import Subject
+from School_app.class_ import Class
 
 
 class Teacher(Human):

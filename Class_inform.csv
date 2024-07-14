@@ -1,0 +1,2 @@
+_grade,_letter,_students,_homeroom_teacher
+2,А,"[class<Student>object representation: name = Maria, last_name = Petrova, _class = None, _id = 2, class<Student>object representation: name = Mikhail, last_name = Borisov, _class = None, _id = 3, class<Student>object representation: name = Anna, last_name = Petrova, _class = None, _id = 1]","Teacher with name Maria, lastname Vasilieva, subjects История, Математика, homeroom class None and id 6"

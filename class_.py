@@ -1,8 +1,8 @@
-from enum import Enum
 from typing import List
 import csv
 import os
-
+import string
+from collections.abc import Iterable
 
 class Class(list):
     _grade: int = 1
@@ -20,19 +20,21 @@ class Class(list):
     def check_grade(grade):
         if type(grade) == int and grade >= 1 and grade <= 11:
             return grade
-        elif grade == None:
+        elif grade is None:
             return grade
         else:
-            raise Exception("Класс должен быть целым числом в интервале от 1 до 11 включительно!")
+            raise AttributeError("Класс должен быть целым числом в интервале от 1 до 11 включительно!")
 
     @staticmethod
     def check_letter(letter):
-        if letter == None:
+        RUS_LETTERS_UPPER = [chr(i) for i in range(ord('А'), ord('Я')+1)]
+        ENG_LETTERS_UPPER = list(string.ascii_uppercase)
+        if letter is None or letter in RUS_LETTERS_UPPER:
             return letter
-        elif letter.istitle() and len(letter) == 1:
-            return letter
+        elif letter in ENG_LETTERS_UPPER:
+            raise AttributeError("Введена буква латинского алфавита!")
         else:
-            raise Exception("Наименование класса должно состоять из 1 заглавной буквы!")
+            raise AttributeError("Наименование класса должно состоять из 1 заглавной буквы!")
 
     def get_grade(self):
         return self._grade
@@ -58,7 +60,7 @@ class Class(list):
       if type(grade)== int and grade >=1 and grade <= 11:
         self._grade = grade
       else:
-        raise Exception("Класс должен быть целым числом в интервале от 1 до 11 включительно!")
+        raise AttributeError("Класс должен быть целым числом в интервале от 1 до 11 включительно!")
 
     @property
     def letter(self):
@@ -69,13 +71,80 @@ class Class(list):
       if len(letter) == 1 and letter.istitle() :
         self._letter = letter
       else:
-        raise Exception("Наименование класса должно состоять из 1 заглавной буквы!")"""
+        raise AttributeError("Наименование класса должно состоять из 1 заглавной буквы!")"""
 
     def __iter__(self):
         return iter(sorted(self._students))
 
-    def __getitem__(self, name):
-        return [i for i in sorted(self._students) if name == i.name or name == i.last_name]
+    def __getitem__(self, name: str) -> list:
+        ENG_LETTERS_LOWER_ = list(string.ascii_lowercase)
+        result = []
+
+        if type(name) is not str:
+            raise AttributeError('Search for students of the class must be made with the string format')
+        else:
+            for ch in name:
+                if ch.lower() not in ENG_LETTERS_LOWER_:
+                    raise AttributeError('Search for students of the class must be made with Latin Alphabet')
+
+        for i in sorted(self._students):
+            if i.name.lower().startswith(name.lower()) or i.last_name.lower().startswith(name.lower()):
+                result.append(i)
+        return result
+
+    def add_student(self, student) -> None:
+        if student not in self._students:
+            self._students.append(student)
+        else:
+            raise AttributeError(f'This student {student} was not added to class {self}. He studies already in this class')
+
+    def add_students(self, *args) -> None:
+        temp_list = []
+        students = list(args)
+
+        for student in students:
+            if student not in self._students:
+                if isinstance (student, Iterable):
+                    for i in student:
+                        self._students.append(i)
+                else:
+                    self._students.append(student)
+            else:
+                temp_list.append(student)
+
+        if len(temp_list) > 0:
+            raise AttributeError(f'These students {temp_list} were not added to class {self}')
+
+
+    def remove_student(self, student)-> None:
+        """Student objects are unique because of id,
+        so no same objects are left after remove() """
+        self._students.remove(student)
+
+    def remove_students(self, students:list)-> None:
+        if students is not None:
+            for student in students:
+                self._students.remove(student)
+        else:
+            return
+
+    def pop_student(self, name: str):
+        found_students = self[name]
+        if len(found_students) > 0:
+            student = self[name][0]
+            index = self._students.index(student)
+            return self._students.pop(index)
+        else:
+            raise ValueError("No student with such name/lastname for deletion")
+
+
+    def clear_class(self):
+        self._students.clear()
+
+    def get_size_class(self) -> int:
+        return len(self._students)
+
+
 
     @staticmethod
     def read_csv(filename):
